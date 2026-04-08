@@ -6,6 +6,7 @@
     <title>พ่อค้าพเนจร | Premium Services</title>
     <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;600&family=Mitr:wght@300;500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <style>
         :root {
             --primary-pink: #ffafbd;
@@ -69,6 +70,7 @@
             opacity: 0.9;
         }
 
+        /* Navigation */
         .nav-container {
             display: flex;
             overflow-x: auto;
@@ -150,6 +152,7 @@
             text-align: center;
         }
 
+        /* Credit Styling */
         .credit-box {
             text-align: center;
             padding: 20px;
@@ -166,7 +169,6 @@
             margin-bottom: 20px;
         }
 
-        .counter-item { flex: 1; }
         .count-num {
             display: block;
             font-size: 32px;
@@ -174,7 +176,11 @@
             color: var(--accent-pink);
         }
 
-        .btn-group { display: flex; gap: 10px; }
+        .btn-group {
+            display: flex;
+            gap: 10px;
+        }
+
         .btn-vote {
             flex: 1;
             padding: 12px;
@@ -185,11 +191,17 @@
             transition: 0.2s;
             color: white;
         }
+
         .btn-plus { background: #4CAF50; }
         .btn-minus { background: #f44336; }
-        .btn-vote:active { transform: scale(0.9); }
+        .btn-vote:disabled { background: #ccc; cursor: not-allowed; }
 
-        .contact-list { display: flex; flex-direction: column; gap: 15px; }
+        .contact-list {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
         .contact-btn {
             display: flex;
             align-items: center;
@@ -202,6 +214,7 @@
             color: white;
             transition: 0.3s;
         }
+
         .ds-btn { background: #5865F2; }
         .ig-btn { background: linear-gradient(45deg, #f09433 0%,#e6683c 25%,#dc2743 50%,#cc2366 75%,#bc1888 100%); }
 
@@ -223,10 +236,10 @@
 
     <div class="nav-container">
         <div class="nav-item active" onclick="showPage('frame', this)">🛍️ กรอบรูป</div>
-        <div class="nav-item" onclick="showPage('spam', this)">🚀 ยิงดิส</div>
-        <div class="nav-item" onclick="showPage('search', this)">🔍 ค้นหาที่อยู่</div>
-        <div class="nav-item" onclick="showPage('nitro', this)">💎 Nitro</div>
-        <div class="nav-item" onclick="showPage('credit', this)">⭐ เครดิต</div>
+        <div class="nav-item" onclick="showPage('spam', this)">🔥 ยิงดิส</div>
+        <div class="nav-item" onclick="showPage('search', this)">🔍 ค้นหา</div>
+        <div class="nav-item" onclick="showPage('nitro', this)">🚀 Nitro</div>
+        <div class="nav-item" onclick="showPage('credit', this)">💎 เครดิต</div>
         <div class="nav-item" onclick="showPage('contact', this)">📱 ติดต่อ</div>
     </div>
 
@@ -239,7 +252,7 @@
                 <div class="price-row"><span class="label">สินค้า 295</span> <span class="price">55.-</span></div>
                 <div class="price-row"><span class="label">สินค้า 339</span> <span class="price">65.-</span></div>
                 <div class="price-row"><span class="label">สินค้า 359</span> <span class="price">75.-</span></div>
-                <div class="price-row"><span class="label">สินค้า 380</span> <span class="price">85.-</span></div>
+                <div class="price-row"><span class="label)สินค้า 380"></span> <span class="price">85.-</span></div>
                 <div class="price-row"><span class="label">สินค้า 425</span> <span class="price">120.-</span></div>
                 <div class="price-row"><span class="label">สินค้า 440</span> <span class="price">135.-</span></div>
                 <div class="price-row"><span class="label">สินค้า 459</span> <span class="price">145.-</span></div>
@@ -250,11 +263,20 @@
         </div>
 
         <div id="spam" class="page">
-            <div class="sub-header">🚀 บริการยิงข้อความ Discord (Spam Service)</div>
+            <div class="sub-header">🔥 บริการยิงดิสคอร์ด (Spam Service)</div>
             <div class="item-list">
-                <div class="price-row"><span class="label">ยิงแบบใช้ยศ</span> <span class="price">10.-</span></div>
-                <div class="price-row"><span class="label">ไม่ใช้ยศ (ข้อความร้าน)</span> <span class="price">100.-</span></div>
-                <div class="price-row"><span class="label">ไม่ใช้ยศ (ข้อความลูกค้า)</span> <span class="price">150.-</span></div>
+                <div class="price-row">
+                    <span class="label">ยิงแบบใช้ยศ (ชัยยศ)</span> 
+                    <span class="price">10.-</span>
+                </div>
+                <div class="price-row">
+                    <span class="label">ไม่ใช้ยศ (ข้อความร้าน)</span> 
+                    <span class="price">100.-</span>
+                </div>
+                <div class="price-row">
+                    <span class="label">ไม่ใช้ยศ (ข้อความลูกค้า)</span> 
+                    <span class="price">150.-</span>
+                </div>
             </div>
         </div>
 
@@ -291,10 +313,10 @@
                     </div>
                 </div>
                 <div class="btn-group">
-                    <button class="btn-vote btn-plus" onclick="updateCredit('plus')"><i class="fas fa-thumbs-up"></i> ให้เครดิต +1</button>
-                    <button class="btn-vote btn-minus" onclick="updateCredit('minus')"><i class="fas fa-thumbs-down"></i> ลดเครดิต -1</button>
+                    <button id="btn-plus" class="btn-vote btn-plus" onclick="confirmVote('plus')"><i class="fas fa-thumbs-up"></i> ให้เครดิต +1</button>
+                    <button id="btn-minus" class="btn-vote btn-minus" onclick="confirmVote('minus')"><i class="fas fa-thumbs-down"></i> ลดเครดิต -1</button>
                 </div>
-                <p style="margin-top: 15px; font-size: 11px; color: #999;">* ข้อมูลนี้แสดงผลเฉพาะเครื่องของคุณเพื่อความปลอดภัย *</p>
+                <p id="vote-msg" style="margin-top: 15px; font-size: 11px; color: #999;">* ข้อมูล Real-time เชื่อมต่อ Database *</p>
             </div>
         </div>
 
@@ -318,34 +340,86 @@
 </div>
 
 <script>
-    // ระบบเปลี่ยนหน้า
+    // --- ตั้งค่า SUPABASE ---
+    const SUPABASE_URL = 'https://evbufqrefzypqjkwokoc.supabase.co'; 
+    const SUPABASE_KEY = 'sb_publishable_GEfxi2nhXkiYRxaVACBy7g_8NDV_wuB';
+    const DISCORD_WEBHOOK = 'https://discord.com/api/webhooks/1491045526223982745/mQ-_gQ8WJerrYIMuHuGdCqJCnNBaOJ8vttSl6dIwW45spRjRekQcgyR8qo-eEUb4jdtM';
+
+    const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
     function showPage(pageId, element) {
         document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
         document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
-        
         document.getElementById(pageId).classList.add('active');
         element.classList.add('active');
     }
 
-    // ระบบเครดิต (ใช้ LocalStorage)
-    let plus = localStorage.getItem('plusCount') || 0;
-    let minus = localStorage.getItem('minusCount') || 0;
+    async function loadCredits() {
+        const { data, error } = await supabaseClient.from('shop_credits').select('*').eq('id', 1).single();
+        if (data) {
+            document.getElementById('plus-count').innerText = data.plus_count;
+            document.getElementById('minus-count').innerText = data.minus_count;
+        }
+        checkVoteStatus();
+    }
 
-    document.getElementById('plus-count').innerText = plus;
-    document.getElementById('minus-count').innerText = minus;
-
-    function updateCredit(type) {
-        if (type === 'plus') {
-            plus++;
-            localStorage.setItem('plusCount', plus);
-            document.getElementById('plus-count').innerText = plus;
-        } else {
-            minus++;
-            localStorage.setItem('minusCount', minus);
-            document.getElementById('minus-count').innerText = minus;
+    function checkVoteStatus() {
+        const lastVote = localStorage.getItem('last_vote_time');
+        if (lastVote) {
+            const hoursPassed = (new Date().getTime() - lastVote) / (1000 * 60 * 60);
+            if (hoursPassed < 24) {
+                document.getElementById('btn-plus').disabled = true;
+                document.getElementById('btn-minus').disabled = true;
+                document.getElementById('vote-msg').innerText = "คุณได้ส่งเครดิตไปแล้ว ขอบคุณครับ!";
+            }
         }
     }
-</script>
 
+    function confirmVote(type) {
+        const msg = type === 'plus' ? "ยืนยันการให้เครดิต +1 ?" : "ยืนยันการลดเครดิต -1 ?";
+        if(confirm(msg)) updateCreditDB(type);
+    }
+
+    async function updateCreditDB(type) {
+        const col = type === 'plus' ? 'plus_count' : 'minus_count';
+        const { data: current } = await supabaseClient.from('shop_credits').select(col).eq('id', 1).single();
+        const newVal = current[col] + 1;
+
+        const { error } = await supabaseClient.from('shop_credits').update({ [col]: newVal }).eq('id', 1);
+
+        if (!error) {
+            localStorage.setItem('last_vote_time', new Date().getTime());
+            loadCredits();
+            sendDiscordNotify(type, newVal);
+            alert("ดำเนินการสำเร็จ!");
+        }
+    }
+
+    function sendDiscordNotify(type, total) {
+        fetch(DISCORD_WEBHOOK, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                embeds: [{
+                    title: type === 'plus' ? "➕ เครดิตเพิ่มขึ้น!" : "➖ เครดิตลดลง",
+                    description: `มีการอัปเดตเครดิตร้าน\n**ประเภท:** ${type === 'plus' ? '+1' : '-1'}\n**ยอดรวมหมวดนี้:** ${total}`,
+                    color: type === 'plus' ? 65280 : 16711680,
+                    footer: { text: "ระบบอัตโนมัติ พ่อค้าพเนจร" },
+                    timestamp: new Date()
+                }]
+            })
+        });
+    }
+
+    loadCredits();
+
+    // Real-time Update
+    supabaseClient.channel('custom-all-channel')
+    .on('postgres_changes', { event: 'UPDATE', schema: 'public', table: 'shop_credits' }, payload => {
+        document.getElementById('plus-count').innerText = payload.new.plus_count;
+        document.getElementById('minus-count').innerText = payload.new.minus_count;
+    }).subscribe();
+
+</script>
 </body>
 </html>
