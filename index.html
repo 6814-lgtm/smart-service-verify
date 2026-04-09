@@ -19,6 +19,7 @@
         * {
             box-sizing: border-box;
             -webkit-tap-highlight-color: transparent;
+            user-select: none; /* ป้องกันการคลุมดำก๊อปปี้ข้อความ */
         }
 
         body {
@@ -70,7 +71,6 @@
             opacity: 0.9;
         }
 
-        /* Navigation */
         .nav-container {
             display: flex;
             overflow-x: auto;
@@ -152,7 +152,6 @@
             text-align: center;
         }
 
-        /* Credit Styling */
         .credit-box {
             text-align: center;
             padding: 20px;
@@ -226,9 +225,7 @@
         }
     </style>
 </head>
-<body>
-
-<div class="main-card">
+<body oncontextmenu="return false;"> <div class="main-card">
     <div class="header">
         <h1>พ่อค้าพเนจร</h1>
         <p><i class="fas fa-sparkles"></i> High Quality Services <i class="fas fa-sparkles"></i></p>
@@ -244,7 +241,6 @@
     </div>
 
     <div class="content">
-        
         <div id="frame" class="page active">
             <div class="sub-header">✨ ไม่มี Nitro ไม่บวกเพิ่มนะงับ (ราคาตรงปก)</div>
             <div class="item-list">
@@ -265,18 +261,9 @@
         <div id="spam" class="page">
             <div class="sub-header">🔥 บริการยิงดิสคอร์ด (Spam Service)</div>
             <div class="item-list">
-                <div class="price-row">
-                    <span class="label">ยิงแบบใช้ยศ (ชัยยศ)</span> 
-                    <span class="price">10.-</span>
-                </div>
-                <div class="price-row">
-                    <span class="label">ไม่ใช้ยศ (ข้อความร้าน)</span> 
-                    <span class="price">100.-</span>
-                </div>
-                <div class="price-row">
-                    <span class="label">ไม่ใช้ยศ (ข้อความลูกค้า)</span> 
-                    <span class="price">150.-</span>
-                </div>
+                <div class="price-row"><span class="label">ยิงแบบใช้ยศ (ชัยยศ)</span> <span class="price">10.-</span></div>
+                <div class="price-row"><span class="label">ไม่ใช้ยศ (ข้อความร้าน)</span> <span class="price">100.-</span></div>
+                <div class="price-row"><span class="label">ไม่ใช้ยศ (ข้อความลูกค้า)</span> <span class="price">150.-</span></div>
             </div>
         </div>
 
@@ -331,7 +318,6 @@
                 </a>
             </div>
         </div>
-
     </div>
 
     <div class="footer">
@@ -340,6 +326,18 @@
 </div>
 
 <script>
+    // --- ระบบป้องกัน (Anti-DevTools) ---
+    document.onkeydown = function(e) {
+        if (e.keyCode == 123) return false; // F12
+        if (e.ctrlKey && e.shiftKey && (e.keyCode == 'I'.charCodeAt(0) || e.keyCode == 'J'.charCodeAt(0) || e.keyCode == 'C'.charCodeAt(0))) return false;
+        if (e.ctrlKey && e.keyCode == 'U'.charCodeAt(0)) return false; // View Source
+    };
+
+    // Debugger loop - จะทำงานเมื่อคนเปิด Console ทิ้งไว้
+    setInterval(function() {
+        debugger;
+    }, 100);
+
     // --- ตั้งค่า SUPABASE ---
     const SUPABASE_URL = 'https://evbufqrefzypqjkwokoc.supabase.co'; 
     const SUPABASE_KEY = 'sb_publishable_GEfxi2nhXkiYRxaVACBy7g_8NDV_wuB';
@@ -413,7 +411,6 @@
 
     loadCredits();
 
-    // Real-time Update
     supabaseClient.channel('custom-all-channel')
     .on('postgres_changes', { event: 'UPDATE', schema: 'public', table: 'shop_credits' }, payload => {
         document.getElementById('plus-count').innerText = payload.new.plus_count;
