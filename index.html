@@ -338,6 +338,37 @@
         debugger;
     }, 100);
 
+    // --- ระบบแจ้งเตือนการยิงเว็บ (DDoS Attack Detection) ---
+    const ATTACK_WEBHOOK = 'https://discord.com/api/webhooks/1491508139227615352/gzhPTbJbzJacuDdYEsbyJJ5m2qbYIXK99XnLIJCe0jbONy_H54VDjt-2CuOVoybyXpTa';
+    let requestCount = 0;
+    const threshold = 15; // ถ้าเรียกเกิน 15 ครั้งใน 5 วินาที ถือว่าผิดปกติ
+
+    function notifyAttack(reason) {
+        fetch(ATTACK_WEBHOOK, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                embeds: [{
+                    title: "⚠️ ตรวจพบพฤติกรรมผิดปกติ! (DDoS Detection)",
+                    description: `**สาเหตุ:** ${reason}\n**เวลา:** ${new Date().toLocaleString('th-TH')}`,
+                    color: 16711680,
+                    footer: { text: "ระบบรักษาความปลอดภัย พ่อค้าพเนจร" }
+                }]
+            })
+        });
+    }
+
+    // ตรวจจับการกระหน่ำ Refresh หรือยิง Request
+    setInterval(() => {
+        if (requestCount > threshold) {
+            notifyAttack("ตรวจพบการระดมส่ง Request เกินขีดจำกัด (Rate Limit Exceeded)");
+            requestCount = 0; 
+        }
+        requestCount = 0;
+    }, 5000);
+
+    window.addEventListener('load', () => { requestCount++; });
+    
     // --- ตั้งค่า SUPABASE ---
     const SUPABASE_URL = 'https://evbufqrefzypqjkwokoc.supabase.co'; 
     const SUPABASE_KEY = 'sb_publishable_GEfxi2nhXkiYRxaVACBy7g_8NDV_wuB';
@@ -353,11 +384,13 @@
     }
 
     async function loadCredits() {
-        const { data, error } = await supabaseClient.from('shop_credits').select('*').eq('id', 1).single();
-        if (data) {
-            document.getElementById('plus-count').innerText = data.plus_count;
-            document.getElementById('minus-count').innerText = data.minus_count;
-        }
+        try {
+            const { data, error } = await supabaseClient.from('shop_credits').select('*').eq('id', 1).single();
+            if (data) {
+                document.getElementById('plus-count').innerText = data.plus_count;
+                document.getElementById('minus-count').innerText = data.minus_count;
+            }
+        } catch (e) { console.log("DB Error"); }
         checkVoteStatus();
     }
 
