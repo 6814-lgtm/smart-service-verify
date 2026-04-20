@@ -19,7 +19,7 @@
         * {
             box-sizing: border-box;
             -webkit-tap-highlight-color: transparent;
-            user-select: none;
+            user-select: none; /* ป้องกันการคลุมดำก๊อปปี้ข้อความ */
         }
 
         body {
@@ -65,7 +65,11 @@
             text-shadow: 0 4px 10px rgba(0,0,0,0.1);
         }
 
-        .header p { font-weight: 300; letter-spacing: 1px; opacity: 0.9; }
+        .header p {
+            font-weight: 300;
+            letter-spacing: 1px;
+            opacity: 0.9;
+        }
 
         .nav-container {
             display: flex;
@@ -95,7 +99,11 @@
             box-shadow: 0 5px 15px rgba(255, 77, 148, 0.3);
         }
 
-        .content { padding: 25px; min-height: 450px; }
+        .content {
+            padding: 25px;
+            min-height: 450px;
+        }
+
         .page { display: none; animation: slideIn 0.4s ease-out; }
         .page.active { display: block; }
 
@@ -128,7 +136,11 @@
             border: 1px solid #eee;
         }
 
-        .price-row:hover { transform: translateX(5px); border-color: var(--primary-pink); }
+        .price-row:hover {
+            transform: translateX(5px);
+            border-color: var(--primary-pink);
+        }
+
         .label { font-weight: 500; color: #555; }
         .price { 
             color: white; 
@@ -140,27 +152,80 @@
             text-align: center;
         }
 
-        .credit-box { text-align: center; padding: 20px; background: white; border-radius: 25px; margin-bottom: 20px; }
-        .credit-title { font-size: 20px; margin-bottom: 15px; color: #555; }
-        .counter-group { display: flex; justify-content: space-around; margin-bottom: 20px; }
-        .count-num { display: block; font-size: 32px; font-weight: 700; color: var(--accent-pink); }
+        .credit-box {
+            text-align: center;
+            padding: 20px;
+            background: white;
+            border-radius: 25px;
+            margin-bottom: 20px;
+        }
 
-        .btn-group { display: flex; gap: 10px; }
-        .btn-vote { flex: 1; padding: 12px; border: none; border-radius: 15px; font-weight: 600; cursor: pointer; transition: 0.2s; color: white; }
+        .credit-title { font-size: 20px; margin-bottom: 15px; color: #555; }
+
+        .counter-group {
+            display: flex;
+            justify-content: space-around;
+            margin-bottom: 20px;
+        }
+
+        .count-num {
+            display: block;
+            font-size: 32px;
+            font-weight: 700;
+            color: var(--accent-pink);
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 10px;
+        }
+
+        .btn-vote {
+            flex: 1;
+            padding: 12px;
+            border: none;
+            border-radius: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.2s;
+            color: white;
+        }
+
         .btn-plus { background: #4CAF50; }
         .btn-minus { background: #f44336; }
         .btn-vote:disabled { background: #ccc; cursor: not-allowed; }
 
-        .contact-list { display: flex; flex-direction: column; gap: 15px; }
-        .contact-btn { display: flex; align-items: center; justify-content: center; gap: 10px; padding: 15px; border-radius: 15px; text-decoration: none; font-weight: 600; color: white; transition: 0.3s; }
+        .contact-list {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .contact-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            padding: 15px;
+            border-radius: 15px;
+            text-decoration: none;
+            font-weight: 600;
+            color: white;
+            transition: 0.3s;
+        }
+
         .ds-btn { background: #5865F2; }
         .ig-btn { background: linear-gradient(45deg, #f09433 0%,#e6683c 25%,#dc2743 50%,#cc2366 75%,#bc1888 100%); }
 
-        .footer { padding: 20px; text-align: center; font-size: 12px; color: #aaa; }
+        .footer {
+            padding: 20px;
+            text-align: center;
+            font-size: 12px;
+            color: #aaa;
+        }
     </style>
 </head>
-<body oncontextmenu="return false;">
-<div class="main-card">
+<body oncontextmenu="return false;"> <div class="main-card">
     <div class="header">
         <h1>พ่อค้าพเนจร</h1>
         <p><i class="fas fa-sparkles"></i> High Quality Services <i class="fas fa-sparkles"></i></p>
@@ -177,7 +242,7 @@
 
     <div class="content">
         <div id="frame" class="page active">
-            <div class="sub-header">✨ ไม่มี Nitro ไม่บวกเพิ่มนะงับ</div>
+            <div class="sub-header">✨ ไม่มี Nitro ไม่บวกเพิ่มนะงับ (ราคาตรงปก)</div>
             <div class="item-list">
                 <div class="price-row"><span class="label">สินค้า 209</span> <span class="price">40.-</span></div>
                 <div class="price-row"><span class="label">สินค้า 295</span> <span class="price">55.-</span></div>
@@ -196,9 +261,9 @@
         <div id="spam" class="page">
             <div class="sub-header">🔥 บริการยิงดิสคอร์ด (Spam Service)</div>
             <div class="item-list">
-                <div class="price-row"><span class="label">ยิงแบบใช้ยศ</span> <span class="price">10.-</span></div>
-                <div class="price-row"><span class="label">ไม่ใช้ยศ (ร้าน)</span> <span class="price">100.-</span></div>
-                <div class="price-row"><span class="label">ไม่ใช้ยศ (ลูกค้า)</span> <span class="price">150.-</span></div>
+                <div class="price-row"><span class="label">ยิงแบบใช้ยศ (ชัยยศ)</span> <span class="price">10.-</span></div>
+                <div class="price-row"><span class="label">ไม่ใช้ยศ (ข้อความร้าน)</span> <span class="price">100.-</span></div>
+                <div class="price-row"><span class="label">ไม่ใช้ยศ (ข้อความลูกค้า)</span> <span class="price">150.-</span></div>
             </div>
         </div>
 
@@ -208,7 +273,7 @@
                 <div class="price-row"><span class="label">เช่ารายวัน</span> <span class="price">50.-</span></div>
                 <div class="price-row"><span class="label">เช่ารายเดือน</span> <span class="price">150.-</span></div>
                 <div class="price-row"><span class="label">เช่ารายปี</span> <span class="price">1,200.-</span></div>
-                <div class="price-row"><span class="label">ถาวร</span> <span class="price">4,500.-</span></div>
+                <div class="price-row"><span class="label">ถาวร (Permanent)</span> <span class="price">4,500.-</span></div>
             </div>
         </div>
 
@@ -225,137 +290,164 @@
             <div class="credit-box">
                 <div class="credit-title">ความน่าเชื่อถือของร้าน</div>
                 <div class="counter-group">
-                    <div class="counter-item"><span class="count-num" id="plus-count">0</span><span style="color: #4CAF50; font-size: 14px;">บวกเครดิต (+1)</span></div>
-                    <div class="counter-item"><span class="count-num" id="minus-count" style="color: #f44336;">0</span><span style="color: #f44336; font-size: 14px;">ติดลบ (-1)</span></div>
+                    <div class="counter-item">
+                        <span class="count-num" id="plus-count">0</span>
+                        <span style="color: #4CAF50; font-size: 14px;">บวกเครดิต (+1)</span>
+                    </div>
+                    <div class="counter-item">
+                        <span class="count-num" id="minus-count" style="color: #f44336;">0</span>
+                        <span style="color: #f44336; font-size: 14px;">ติดลบ (-1)</span>
+                    </div>
                 </div>
                 <div class="btn-group">
-                    <button id="btn-plus" class="btn-vote btn-plus" onclick="handleVote('plus')"><i class="fas fa-thumbs-up"></i> ให้เครดิต +1</button>
-                    <button id="btn-minus" class="btn-vote btn-minus" onclick="handleVote('minus')"><i class="fas fa-thumbs-down"></i> ลดเครดิต -1</button>
+                    <button id="btn-plus" class="btn-vote btn-plus" onclick="confirmVote('plus')"><i class="fas fa-thumbs-up"></i> ให้เครดิต +1</button>
+                    <button id="btn-minus" class="btn-vote btn-minus" onclick="confirmVote('minus')"><i class="fas fa-thumbs-down"></i> ลดเครดิต -1</button>
                 </div>
-                <p id="vote-msg" style="margin-top: 15px; font-size: 11px; color: #999;">* ตรวจสอบด้วยระบบ Security Fingerprint *</p>
+                <p id="vote-msg" style="margin-top: 15px; font-size: 11px; color: #999;">* ข้อมูล Real-time เชื่อมต่อ Database *</p>
             </div>
         </div>
 
         <div id="contact" class="page">
-            <div class="sub-header">ช่องทางการติดต่อ</div>
+            <div class="sub-header">ช่องทางการติดต่อและแจ้งชำระเงิน</div>
             <div class="contact-list">
-                <a href="https://discord.gg/ScXAeGRdUB" target="_blank" class="contact-btn ds-btn"><i class="fab fa-discord fa-lg"></i> Discord</a>
-                <a href="https://www.instagram.com/merchantwandering?igsh=bHZrbWNza3hkN2p6" target="_blank" class="contact-btn ig-btn"><i class="fab fa-instagram fa-lg"></i> Instagram</a>
+                <a href="https://discord.gg/ScXAeGRdUB" target="_blank" class="contact-btn ds-btn">
+                    <i class="fab fa-discord fa-lg"></i> Discord ของร้าน
+                </a>
+                <a href="https://www.instagram.com/merchantwandering?igsh=bHZrbWNza3hkN2p6" target="_blank" class="contact-btn ig-btn">
+                    <i class="fab fa-instagram fa-lg"></i> Instagram
+                </a>
             </div>
         </div>
     </div>
-    <div class="footer">&copy; 2026 พ่อค้าพเนจร | All Rights Reserved</div>
+
+    <div class="footer">
+        &copy; 2026 พ่อค้าพเนจร | All Rights Reserved
+    </div>
 </div>
 
 <script>
-    // --- Anti-DevTools ---
-    document.onkeydown = e => { if(e.keyCode==123 || (e.ctrlKey && e.shiftKey && e.keyCode=='I'.charCodeAt(0))) return false; };
-    setInterval(() => { debugger; }, 1000);
+    // --- ระบบป้องกัน (Anti-DevTools) ---
+    document.onkeydown = function(e) {
+        if (e.keyCode == 123) return false; // F12
+        if (e.ctrlKey && e.shiftKey && (e.keyCode == 'I'.charCodeAt(0) || e.keyCode == 'J'.charCodeAt(0) || e.keyCode == 'C'.charCodeAt(0))) return false;
+        if (e.ctrlKey && e.keyCode == 'U'.charCodeAt(0)) return false; // View Source
+    };
 
-    // --- Supabase Config ---
+    // Debugger loop - จะทำงานเมื่อคนเปิด Console ทิ้งไว้
+    setInterval(function() {
+        debugger;
+    }, 100);
+
+    // --- ระบบแจ้งเตือนการยิงเว็บ (DDoS Attack Detection) ---
+    const ATTACK_WEBHOOK = 'https://discord.com/api/webhooks/1491508139227615352/gzhPTbJbzJacuDdYEsbyJJ5m2qbYIXK99XnLIJCe0jbONy_H54VDjt-2CuOVoybyXpTa';
+    let requestCount = 0;
+    const threshold = 15; // ถ้าเรียกเกิน 15 ครั้งใน 5 วินาที ถือว่าผิดปกติ
+
+    function notifyAttack(reason) {
+        fetch(ATTACK_WEBHOOK, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                embeds: [{
+                    title: "⚠️ ตรวจพบพฤติกรรมผิดปกติ! (DDoS Detection)",
+                    description: `**สาเหตุ:** ${reason}\n**เวลา:** ${new Date().toLocaleString('th-TH')}`,
+                    color: 16711680,
+                    footer: { text: "ระบบรักษาความปลอดภัย พ่อค้าพเนจร" }
+                }]
+            })
+        });
+    }
+
+    // ตรวจจับการกระหน่ำ Refresh หรือยิง Request
+    setInterval(() => {
+        if (requestCount > threshold) {
+            notifyAttack("ตรวจพบการระดมส่ง Request เกินขีดจำกัด (Rate Limit Exceeded)");
+            requestCount = 0; 
+        }
+        requestCount = 0;
+    }, 5000);
+
+    window.addEventListener('load', () => { requestCount++; });
+    
+    // --- ตั้งค่า SUPABASE ---
     const SUPABASE_URL = 'https://evbufqrefzypqjkwokoc.supabase.co'; 
     const SUPABASE_KEY = 'sb_publishable_GEfxi2nhXkiYRxaVACBy7g_8NDV_wuB';
     const DISCORD_WEBHOOK = 'https://discord.com/api/webhooks/1491045526223982745/mQ-_gQ8WJerrYIMuHuGdCqJCnNBaOJ8vttSl6dIwW45spRjRekQcgyR8qo-eEUb4jdtM';
+
     const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
-    // --- ฟังก์ชันหลัก ---
-    function showPage(p, el) {
-        document.querySelectorAll('.page').forEach(x => x.classList.remove('active'));
-        document.querySelectorAll('.nav-item').forEach(x => x.classList.remove('active'));
-        document.getElementById(p).classList.add('active');
-        el.classList.add('active');
-    }
-
-    // สร้าง Fingerprint (ID เครื่องแบบขี้เกียจทำ DB)
-    function getDeviceID() {
-        const nav = window.navigator;
-        const screen = window.screen;
-        let guid = nav.userAgent.replace(/\D+/g, '');
-        guid += screen.height || '';
-        guid += screen.width || '';
-        guid += nav.language || '';
-        return btoa(guid).substring(0, 16);
-    }
-
-    async function checkSecurity() {
-        const deviceID = getDeviceID();
-        const lastVote = localStorage.getItem('v_token_' + deviceID);
-        
-        // ลองดึง IP มาเช็คด้วย (เพื่อความชัวร์เรื่องเน็ตซ้ำ)
-        let currentIP = "";
-        try {
-            const res = await fetch('https://api.ipify.org?format=json');
-            const data = await res.json();
-            currentIP = data.ip;
-        } catch(e) {}
-
-        const lastIP = localStorage.getItem('last_ip_voted');
-
-        if (lastVote || (currentIP && lastIP === currentIP)) {
-            const time = lastVote || localStorage.getItem('last_v_time');
-            const hours = (new Date().getTime() - time) / (1000 * 60 * 60);
-            if (hours < 24) {
-                document.getElementById('btn-plus').disabled = true;
-                document.getElementById('btn-minus').disabled = true;
-                document.getElementById('vote-msg').innerText = "คุณหรือเครือข่ายเน็ตนี้ได้ให้เครดิตไปแล้ว (รอ 24 ชม.)";
-                return false;
-            }
-        }
-        return currentIP;
+    function showPage(pageId, element) {
+        document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+        document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+        document.getElementById(pageId).classList.add('active');
+        element.classList.add('active');
     }
 
     async function loadCredits() {
-        const { data } = await supabaseClient.from('shop_credits').select('*').eq('id', 1).single();
-        if (data) {
-            document.getElementById('plus-count').innerText = data.plus_count;
-            document.getElementById('minus-count').innerText = data.minus_count;
-        }
-        await checkSecurity();
+        try {
+            const { data, error } = await supabaseClient.from('shop_credits').select('*').eq('id', 1).single();
+            if (data) {
+                document.getElementById('plus-count').innerText = data.plus_count;
+                document.getElementById('minus-count').innerText = data.minus_count;
+            }
+        } catch (e) { console.log("DB Error"); }
+        checkVoteStatus();
     }
 
-    async function handleVote(type) {
-        const ip = await checkSecurity();
-        if (ip === false) return;
+    function checkVoteStatus() {
+        const lastVote = localStorage.getItem('last_vote_time');
+        if (lastVote) {
+            const hoursPassed = (new Date().getTime() - lastVote) / (1000 * 60 * 60);
+            if (hoursPassed < 24) {
+                document.getElementById('btn-plus').disabled = true;
+                document.getElementById('btn-minus').disabled = true;
+                document.getElementById('vote-msg').innerText = "คุณได้ส่งเครดิตไปแล้ว ขอบคุณครับ!";
+            }
+        }
+    }
 
-        if (!confirm("คุณต้องการ " + (type=='plus'?'ให้':'ลด') + " เครดิตใช่หรือไม่?")) return;
+    function confirmVote(type) {
+        const msg = type === 'plus' ? "ยืนยันการให้เครดิต +1 ?" : "ยืนยันการลดเครดิต -1 ?";
+        if(confirm(msg)) updateCreditDB(type);
+    }
 
+    async function updateCreditDB(type) {
         const col = type === 'plus' ? 'plus_count' : 'minus_count';
-        const { data: cur } = await supabaseClient.from('shop_credits').select(col).eq('id', 1).single();
-        const newVal = cur[col] + 1;
+        const { data: current } = await supabaseClient.from('shop_credits').select(col).eq('id', 1).single();
+        const newVal = current[col] + 1;
 
         const { error } = await supabaseClient.from('shop_credits').update({ [col]: newVal }).eq('id', 1);
 
         if (!error) {
-            const now = new Date().getTime();
-            localStorage.setItem('v_token_' + getDeviceID(), now);
-            localStorage.setItem('last_v_time', now);
-            if(ip) localStorage.setItem('last_ip_voted', ip);
-
+            localStorage.setItem('last_vote_time', new Date().getTime());
             loadCredits();
-            alert("ขอบคุณสำหรับเครดิตครับ!");
-            
-            // ส่งแจ้งเตือน Discord
-            fetch(DISCORD_WEBHOOK, {
-                method: 'POST',
-                headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify({
-                    embeds: [{
-                        title: type==='plus'?"➕ เพิ่มเครดิต":"➖ ลดเครดิต",
-                        description: `มีการกดเครดิตใหม่!\nIP: ${ip || 'Unknown'}\nDevice ID: ${getDeviceID()}`,
-                        color: type==='plus'?65280:16711680,
-                        timestamp: new Date()
-                    }]
-                })
-            });
+            sendDiscordNotify(type, newVal);
+            alert("ดำเนินการสำเร็จ!");
         }
     }
 
+    function sendDiscordNotify(type, total) {
+        fetch(DISCORD_WEBHOOK, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                embeds: [{
+                    title: type === 'plus' ? "➕ เครดิตเพิ่มขึ้น!" : "➖ เครดิตลดลง",
+                    description: `มีการอัปเดตเครดิตร้าน\n**ประเภท:** ${type === 'plus' ? '+1' : '-1'}\n**ยอดรวมหมวดนี้:** ${total}`,
+                    color: type === 'plus' ? 65280 : 16711680,
+                    footer: { text: "ระบบอัตโนมัติ พ่อค้าพเนจร" },
+                    timestamp: new Date()
+                }]
+            })
+        });
+    }
+
     loadCredits();
-    
-    // Subscribe Real-time
-    supabaseClient.channel('any').on('postgres_changes', {event:'UPDATE', schema:'public', table:'shop_credits'}, p => {
-        document.getElementById('plus-count').innerText = p.new.plus_count;
-        document.getElementById('minus-count').innerText = p.new.minus_count;
+
+    supabaseClient.channel('custom-all-channel')
+    .on('postgres_changes', { event: 'UPDATE', schema: 'public', table: 'shop_credits' }, payload => {
+        document.getElementById('plus-count').innerText = payload.new.plus_count;
+        document.getElementById('minus-count').innerText = payload.new.minus_count;
     }).subscribe();
 
 </script>
