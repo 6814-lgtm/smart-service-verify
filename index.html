@@ -3,73 +3,60 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Bio Link</title>
-    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;500&display=swap" rel="stylesheet">
+    <title>Shadow - Bio Link</title>
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;500&family=Poppins:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <style>
         :root {
-            --primary-purple: #6a11cb;
-            --secondary-purple: #2575fc;
-            --bg-color: #0f0c29;
-            --aura-color: rgba(168, 85, 247, 0.6);
+            --primary-color: #9d4edd;
+            --secondary-color: #5a189a;
+            --bg-color: #10002b;
+            --glow-color: rgba(157, 78, 221, 0.6);
         }
 
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Kanit', sans-serif;
-            user-select: none; /* ป้องกันการคลุมดำก๊อปปี้ */
+            user-select: none; /* ป้องกันการคลุมดำก๊อปปี้ข้อความ */
         }
 
         body {
-            background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
-            height: 100vh;
+            font-family: 'Poppins', 'Kanit', sans-serif;
+            background-color: var(--bg-color);
+            color: white;
+            overflow: hidden; /* ซ่อน scrollbar ส่วนเกิน */
             display: flex;
             justify-content: center;
             align-items: center;
-            overflow: hidden;
-            color: white;
+            height: 100vh;
         }
 
-        /* เอฟเฟกต์หิมะ */
-        #snow-container {
+        /* Snow Effect Canvas */
+        #snow-canvas {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            pointer-events: none;
             z-index: 0;
-        }
-
-        .snowflake {
-            position: absolute;
-            top: -10px;
-            background: white;
-            border-radius: 50%;
-            opacity: 0.8;
             pointer-events: none;
-            animation: fall linear infinite;
         }
 
-        @keyframes fall {
-            to { transform: translateY(105vh); }
-        }
-
-        /* Container หลัก */
-        .card {
+        /* Glassmorphism Container */
+        .container {
+            position: relative;
+            z-index: 10;
             background: rgba(255, 255, 255, 0.05);
             backdrop-filter: blur(15px);
             border: 1px solid rgba(255, 255, 255, 0.1);
-            padding: 40px;
+            padding: 2rem;
             border-radius: 30px;
-            text-align: center;
             width: 90%;
             max-width: 400px;
-            z-index: 1;
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
+            text-align: center;
+            box-shadow: 0 25px 45px rgba(0,0,0,0.5);
             animation: fadeIn 1.5s ease-out;
         }
 
@@ -78,16 +65,16 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
-        /* รูปโปรไฟล์วงกลม */
+        /* Profile Image */
         .profile-img {
             width: 120px;
             height: 120px;
             border-radius: 50%;
             object-fit: cover;
-            border: 4px solid var(--primary-purple);
-            box-shadow: 0 0 20px var(--primary-purple);
-            margin-bottom: 20px;
-            transition: transform 0.3s ease;
+            border: 4px solid var(--primary-color);
+            box-shadow: 0 0 20px var(--glow-color);
+            margin-bottom: 1rem;
+            transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
 
         .profile-img:hover {
@@ -95,123 +82,172 @@
         }
 
         h1 {
-            font-size: 1.5rem;
-            margin-bottom: 5px;
-            text-shadow: 0 0 10px rgba(255,255,255,0.5);
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+            letter-spacing: 2px;
+            text-shadow: 0 0 10px var(--primary-color);
         }
 
-        p {
+        .subtitle {
             font-size: 0.9rem;
-            opacity: 0.8;
-            margin-bottom: 30px;
+            color: #c084fc;
+            margin-bottom: 2rem;
         }
 
-        /* ปุ่ม Link */
-        .links-container {
+        /* Links Buttons */
+        .links-group {
             display: flex;
             flex-direction: column;
-            gap: 15px;
+            gap: 1.2rem;
         }
 
-        .btn {
+        .link-card {
             text-decoration: none;
             color: white;
             background: rgba(255, 255, 255, 0.1);
-            padding: 12px;
+            padding: 12px 20px;
             border-radius: 15px;
+            font-weight: 500;
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 10px;
-            font-weight: 500;
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            gap: 12px;
+            transition: all 0.3s ease;
             position: relative;
-            border: 1px solid rgba(255, 255, 255, 0.1);
             overflow: hidden;
+            border: 1px solid transparent;
         }
 
-        /* Aura และแสงไฟเวลา Hover */
-        .btn:hover {
-            background: var(--primary-purple);
-            transform: translateY(-5px);
-            box-shadow: 0 0 20px var(--aura-color), 0 0 40px var(--aura-color);
-            border: 1px solid white;
+        /* Aura Effect on Hover */
+        .link-card:hover {
+            background: var(--primary-color);
+            transform: translateY(-3px);
+            box-shadow: 0 0 25px var(--primary-color);
+            border: 1px solid rgba(255,255,255,0.5);
         }
 
-        .btn i {
-            font-size: 1.2rem;
+        .link-card i {
+            font-size: 1.4rem;
         }
 
-        /* สีเฉพาะปุ่ม */
-        .btn-ig:hover { background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888); }
-        .btn-discord:hover { background: #5865F2; }
-        .btn-bot:hover { background: #00b894; }
+        /* Special Aura for Clicks */
+        .link-card:active {
+            transform: scale(0.95);
+            box-shadow: 0 0 40px #fff;
+        }
 
-        /* ป้องกันการคลิกขวา */
-        body {
-            -webkit-touch-callout: none;
+        /* Mouse Glow */
+        #cursor-glow {
+            position: fixed;
+            width: 300px;
+            height: 300px;
+            background: radial-gradient(circle, rgba(157, 78, 221, 0.15) 0%, rgba(0,0,0,0) 70%);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 1;
+            transform: translate(-50%, -50%);
         }
     </style>
 </head>
-<body oncontextmenu="return false;"> <div id="snow-container"></div>
+<body oncontextmenu="return false;"> <canvas id="snow-canvas"></canvas>
+    <div id="cursor-glow"></div>
 
-    <div class="card">
-        <img src="https://cdn.discordapp.com/attachments/1463410086570360933/1496287232338694305/FB_IMG_1775570096089.jpg?ex=69e95593&is=69e80413&hm=c79a701106c0e53b48175c0c81cacd1e91dbfe1b0abfe8e25267d0468dde620c&" alt="Profile" class="profile-img">
-        
-        <h1>DECH CRYPT</h1>
-        <p>ยินดีต้อนรับสู่พื้นที่ของผม</p>
+    <div class="container">
+        <img src="https://cdn.discordapp.com/attachments/1463410086570360933/1496287232338694305/FB_IMG_1775570096089.jpg?ex=69e95593&is=69e80413&hm=c79a701106c0e53b48175c0c81cacd1e91dbfe1b0abfe8e25267d0468dde620c&" 
+             alt="Profile" class="profile-img">
+        <h1>SHADOW</h1>
+        <p class="subtitle">Welcome to my space</p>
 
-        <div class="links-container">
-            <a href="https://www.instagram.com/dech_crypt?igsh=cXNia3J4ZTZxeXdn" target="_blank" class="btn btn-ig">
+        <div class="links-group">
+            <a href="https://www.instagram.com/dech_crypt?igsh=cXNia3J4ZTZxeXdn" target="_blank" class="link-card">
                 <i class="fab fa-instagram"></i> Instagram
             </a>
-            <a href="https://discord.gg/ScXAeGRdUB" target="_blank" class="btn btn-discord">
+            
+            <a href="https://discord.gg/ScXAeGRdUB" target="_blank" class="link-card">
                 <i class="fab fa-discord"></i> Join Discord
             </a>
-            <a href="https://discord.com/oauth2/authorize?client_id=1496087104650743809&permissions=268437504&integration_type=0&scope=bot" target="_blank" class="btn btn-bot">
-                <i class="fas fa-robot"></i> Invite Bot
+
+            <a href="https://discord.com/oauth2/authorize?client_id=1496087104650743809&permissions=268437504&integration_type=0&scope=bot" target="_blank" class="link-card">
+                <i class="fas fa-robot"></i> Invite My Bot
             </a>
         </div>
     </div>
 
     <script>
-        // ระบบสร้างหิมะ
-        function createSnow() {
-            const container = document.getElementById('snow-container');
-            const flake = document.createElement('div');
-            const size = Math.random() * 5 + 2 + 'px';
-            
-            flake.classList.add('snowflake');
-            flake.style.left = Math.random() * 100 + 'vw';
-            flake.style.width = size;
-            flake.style.height = size;
-            flake.style.animationDuration = Math.random() * 3 + 2 + 's'; 
-            flake.style.opacity = Math.random();
-            
-            container.appendChild(flake);
-            
-            setTimeout(() => {
-                flake.remove();
-            }, 5000);
-        }
-        setInterval(createSnow, 100);
+        // --- 1. Snow Effect ---
+        const canvas = document.getElementById('snow-canvas');
+        const ctx = canvas.getContext('2d');
+        let particles = [];
 
-        // ระบบป้องกันการกด F12 / Inspect Element
+        function resize() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+
+        window.addEventListener('resize', resize);
+        resize();
+
+        class Particle {
+            constructor() {
+                this.reset();
+            }
+            reset() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.size = Math.random() * 3 + 1;
+                this.speed = Math.random() * 1 + 0.5;
+                this.vx = Math.random() * 1 - 0.5;
+            }
+            update() {
+                this.y += this.speed;
+                this.x += this.vx;
+                if (this.y > canvas.height) this.reset();
+            }
+            draw() {
+                ctx.fillStyle = 'rgba(255, 255, 255, 0.8)';
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+
+        for (let i = 0; i < 100; i++) particles.push(new Particle());
+
+        function animate() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            particles.forEach(p => { p.update(); p.draw(); });
+            requestAnimationFrame(animate);
+        }
+        animate();
+
+        // --- 2. Mouse Glow Effect ---
+        const glow = document.getElementById('cursor-glow');
+        window.addEventListener('mousemove', (e) => {
+            glow.style.left = e.clientX + 'px';
+            glow.style.top = e.clientY + 'px';
+        });
+
+        // --- 3. Security (Anti-F12 & Protection) ---
         document.onkeydown = function(e) {
-            if (e.keyCode == 123) { return false; } // F12
-            if (e.ctrlKey && e.shiftKey && e.keyCode == 'I'.charCodeAt(0)) { return false; } // Ctrl+Shift+I
-            if (e.ctrlKey && e.shiftKey && e.keyCode == 'C'.charCodeAt(0)) { return false; } // Ctrl+Shift+C
-            if (e.ctrlKey && e.shiftKey && e.keyCode == 'J'.charCodeAt(0)) { return false; } // Ctrl+Shift+J
-            if (e.ctrlKey && e.keyCode == 'U'.charCodeAt(0)) { return false; } // Ctrl+U (ดู Source)
+            // ป้องกัน F12
+            if(e.keyCode == 123) return false;
+            // ป้องกัน Ctrl+Shift+I, Ctrl+Shift+J, Ctrl+U
+            if(e.ctrlKey && (e.shiftKey && (e.keyCode == 73 || e.keyCode == 74)) || (e.ctrlKey && e.keyCode == 85)) {
+                return false;
+            }
         };
 
-        // เอฟเฟกต์เมาส์ขยับแล้วมีแสง (เฉพาะใน PC)
-        document.addEventListener('mousemove', (e) => {
-            const card = document.querySelector('.card');
-            const xAxis = (window.innerWidth / 2 - e.pageX) / 25;
-            const yAxis = (window.innerHeight / 2 - e.pageY) / 25;
-            card.style.transform = `rotateY(${xAxis}deg) rotateX(${yAxis}deg)`;
+        // ตรวจจับการเปิด DevTools เบื้องต้น
+        let checkStatus = false;
+        const element = new Image();
+        Object.defineProperty(element, 'id', {
+            get: function() {
+                window.location.reload(); // ถ้าเปิด DevTools จะสั่งรีโหลดหน้าเว็บ
+            }
         });
+        console.log(element);
+
     </script>
 </body>
 </html>
+
